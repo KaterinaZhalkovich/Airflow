@@ -7,16 +7,11 @@ from datetime import datetime
 path = os.environ.get('PROJECT_PATH', '.')
 model_path = f'{path}/data/models'
 test_path = f'{path}/data/test'
-def last_model():
-    dates = []
-    for files in os.listdir(model_path):
-        dates = dates + [files.split('_')[-1].split('.')[0]]
-    return os.listdir(model_path)[dates.index(max(dates))]
-
 
 def predict():
-    model_name = model_path + "/" + last_model()
-    with open(model_name, 'rb') as file:
+    model_sort = sorted(os.listdir(model_path))[-1]
+
+    with open(model_path + '/' + model_sort, 'rb') as file:
         model = dill.load(file)
 
     df_pred = pd.DataFrame(columns=['id', 'pred'])
